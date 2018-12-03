@@ -30,7 +30,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func makeRequest(completionHandler: @escaping () -> Void) {
         
         // Create list video request
-        let request = VideoListRequest(part: [.id, .statistics], filter: .chart, maxResults: 50)
+        let request = VideoListRequest(part: [.id, .statistics], filter: .chart, maxResults: 20)
         
         // Send a request.
         ApiSession.shared.send(request) { result in
@@ -52,6 +52,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     }
                 }
                 completionHandler()
+                
             case .failed(let error):
                 print(error)
             }
@@ -72,6 +73,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120.0
     }
-
+    
 }
 
