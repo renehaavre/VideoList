@@ -13,6 +13,8 @@ class VideoTableViewCell: UITableViewCell {
     let marginX: CGFloat = 10.0
     let marginY: CGFloat = 20.0
     
+    var titleTextField = UITextField()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -26,6 +28,11 @@ class VideoTableViewCell: UITableViewCell {
         bgView.layer.cornerRadius = 20.0
 
         self.addSubview(bgView)
+        titleTextField.frame = bgView.bounds.inset(by: UIEdgeInsets(top: 30, left: 80, bottom: 10, right: 0))
+        titleTextField.textColor = UIColor.darkGray
+        self.addSubview(titleTextField)
+        bgView.sendSubviewToBack(titleTextField)
+        
 
     }
 

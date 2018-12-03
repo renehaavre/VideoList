@@ -14,7 +14,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet var tableView: UITableView!
     
     var YTVideos = [Video]()
-    var topVideos = [Video]()
+    var topVideos = [VideoObject]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,11 +42,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 for video in response.items {
                     if let dislikes = Int((video.statistics?.dislikeCount)!) {
                         if let likes = Int((video.statistics?.likeCount)!) {
-                            let likeRatio = likes / dislikes
-                            print("https://www.youtube.com/watch?v=" + video.id)
-                            print("Ratio: ", likeRatio)
-                            if likeRatio > 80 {
-                                self.topVideos.append(video)
+                            let tempVideo = VideoObject()
+                            
+                            tempVideo.title = video.contentDetails?.caption ?? "Title"
+                            tempVideo.rating = likes / dislikes
+                            tempVideo.url = "https://www.youtube.com/watch?v=" + video.id
+                            if tempVideo.rating > 80 {
+                                self.topVideos.append(tempVideo)
                             }
                         }
                     }
@@ -65,7 +67,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! VideoTableViewCell
-        cell.textLabel?.text = topVideos[indexPath.row].id
+//        cell.textLabel?.text = topVideos[indexPath.row].title
+        cell.titleTextField.text = topVideos[indexPath.row].title
         
         return cell
     }
